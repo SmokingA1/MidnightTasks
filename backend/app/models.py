@@ -1,5 +1,6 @@
 from uuid import UUID, uuid4
 from datetime import datetime, timezone
+from typing import Optional
 
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy import String, Integer, Boolean, Text, ForeignKey, Enum, PrimaryKeyConstraint
@@ -96,7 +97,7 @@ class Task(Base, TimestampMixin):
 
     comments: Mapped[list["Comment"]] = relationship(back_populates="task", cascade="all, delete-orphan")
 
-    assignee: Mapped["User" | None] = relationship(back_populates="tasks_assignee")
+    assignee: Mapped[Optional["User"]] = relationship(back_populates="tasks_assignee")
     column: Mapped["Column"] = relationship(back_populates="tasks")
     user: Mapped["User"] = relationship(back_populates="created_tasks")
 
@@ -135,7 +136,7 @@ class Comment(Base, TimestampMixin):
 
     task: Mapped["Task"] = relationship(back_populates="comments")
     children: Mapped[list["Comment"]] = relationship(back_populates="parent", cascade="all, delete-orphan")
-    parent: Mapped["Comment" | None] = relationship(
+    parent: Mapped[Optional["Comment"]] = relationship(
         back_populates="children",
         remote_side=[id],
         uselist=False
