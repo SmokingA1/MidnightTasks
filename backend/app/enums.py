@@ -8,8 +8,9 @@ class TaskPriorityEnum(str, PyEnum):
 
 
 class TaskStatusEnum(str, PyEnum):
-    OPEN = "open"
+    TO_DO = "to_do"
     IN_PROGRESS = "in_progress"
+    TESTING = "testing"
     DONE = "done"
 
 

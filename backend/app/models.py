@@ -71,6 +71,7 @@ class Column(Base, TimestampMixin):
     board_id: Mapped[UUID] = mapped_column(ForeignKey("boards.id", ondelete="CASCADE", name="fk_columns_boards_id"), nullable=False)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    status: Mapped[TaskStatusEnum] =  mapped_column(Enum(TaskStatusEnum, name="taskstatus_column"), nullable=False, default=TaskStatusEnum.TO_DO)
     wip_limit: Mapped[int | None] = mapped_column(Integer, nullable=True)
 
     tasks: Mapped[list["Task"]] = relationship(back_populates="column", cascade="all, delete-orphan")
@@ -90,7 +91,7 @@ class Task(Base, TimestampMixin):
     assignee_id: Mapped[UUID | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"), nullable=True)    
     created_by: Mapped[UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE", name="fk_tasks_users_id"), nullable=False)
     priority: Mapped[TaskPriorityEnum] = mapped_column(Enum(TaskPriorityEnum, name="priority"), nullable=False, default=TaskPriorityEnum.LOW)
-    status: Mapped[TaskStatusEnum] = mapped_column(Enum(TaskStatusEnum, name="taskstatus"), nullable=False, default=TaskStatusEnum.OPEN)
+    status: Mapped[TaskStatusEnum] = mapped_column(Enum(TaskStatusEnum, name="taskstatus"), nullable=False, default=TaskStatusEnum.TO_DO)
     order: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     due_date: Mapped[datetime] = mapped_column(TZDateTime(), nullable=False)
     completed_at: Mapped[datetime | None] = mapped_column(TZDateTime(), nullable=True)

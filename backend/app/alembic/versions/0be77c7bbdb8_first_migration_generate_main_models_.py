@@ -1,8 +1,8 @@
 """First migration. Generate main models, users, projects and other.
 
-Revision ID: 679ccc10582a
+Revision ID: 0be77c7bbdb8
 Revises: 
-Create Date: 2025-08-05 21:59:21.777561
+Create Date: 2025-08-07 08:32:46.729081
 
 """
 from typing import Sequence, Union
@@ -14,7 +14,7 @@ import app.core
 import app.core.database
 
 # revision identifiers, used by Alembic.
-revision: str = '679ccc10582a'
+revision: str = '0be77c7bbdb8'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -70,6 +70,7 @@ def upgrade() -> None:
     sa.Column('board_id', sa.UUID(), nullable=False),
     sa.Column('name', sa.String(length=50), nullable=False),
     sa.Column('order', sa.Integer(), nullable=False),
+    sa.Column('status', sa.Enum('TO_DO', 'IN_PROGRESS', 'TESTING', 'DONE', name='taskstatus_column'), nullable=False),
     sa.Column('wip_limit', sa.Integer(), nullable=True),
     sa.Column('created_at', app.core.database.TZDateTime(), nullable=False),
     sa.Column('updated_at', app.core.database.TZDateTime(), nullable=False),
@@ -84,7 +85,7 @@ def upgrade() -> None:
     sa.Column('assignee_id', sa.UUID(), nullable=True),
     sa.Column('created_by', sa.UUID(), nullable=False),
     sa.Column('priority', sa.Enum('LOW', 'MEDIUM', 'HIGH', 'URGENT', name='priority'), nullable=False),
-    sa.Column('status', sa.Enum('OPEN', 'IN_PROGRESS', 'DONE', name='taskstatus'), nullable=False),
+    sa.Column('status', sa.Enum('TO_DO', 'IN_PROGRESS', 'TESTING', 'DONE', name='taskstatus'), nullable=False),
     sa.Column('order', sa.Integer(), nullable=False),
     sa.Column('due_date', app.core.database.TZDateTime(), nullable=False),
     sa.Column('completed_at', app.core.database.TZDateTime(), nullable=True),
