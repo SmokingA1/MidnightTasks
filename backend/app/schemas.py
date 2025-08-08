@@ -158,7 +158,6 @@ class TaskUpdate(BaseModel):
 class TaskAssignmentBase(BaseModel):
     user_id: UUID
     task_id: UUID
-    assigned_at: datetime = Field(..., "Time when the task was assigned to somebody")
 
 
 class TaskAssignmentCreate(TaskAssignmentBase):
@@ -166,6 +165,7 @@ class TaskAssignmentCreate(TaskAssignmentBase):
 
 
 class TaskAssignmentRead(TaskAssignmentBase):
+    assigned_at: datetime
     
     model_config = {"from_attributes": True}
 
