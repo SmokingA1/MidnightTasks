@@ -7,7 +7,7 @@ from sqlalchemy import String, Integer, Boolean, Text, ForeignKey, Enum, Primary
 from sqlalchemy.dialects.postgresql import UUID as PG_UUID
 
 from app.core.database import Base, TimestampMixin, TZDateTime
-from app.enums import TaskStatusEnum, TaskPriorityEnum, ProjectVisibilityEnum
+from app.enums import TaskStatusEnum, TaskPriorityEnum, ProjectVisibilityEnum, UserRoleEnum
 
 class User(Base, TimestampMixin):
     __tablename__ = "users"
@@ -21,10 +21,11 @@ class User(Base, TimestampMixin):
     avatar_url: Mapped[str | None] = mapped_column(String(255), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, nullable=False, default=False)
     is_verified: Mapped[bool] = mapped_column(Boolean, default=False)
+    role: Mapped[UserRoleEnum] = mapped_column(Enum(UserRoleEnum, name="user_role"), nullable=False, default=UserRoleEnum.USER)
 
     projects: Mapped[list["Project"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-    created_tasks: Mapped[list["Task"]] = relationship(back_populates="user", cascade="all, delete-orphan")
-    tasks_assignee: Mapped[list["Task"]] = relationship(back_populates="assignee", passive_deletes=True)
+    created_tasks: Mapped[list["Task"]] = relationship(back_populates="user", foreign_keys="Task.created_by", cascade="all, delete-orphan")
+    tasks_assignee: Mapped[list["Task"]] = relationship(back_populates="assignee", foreign_keys="Task.assignee_id", passive_deletes=True)
     
     tasks: Mapped[list["TaskAssignment"]] = relationship(back_populates="user", cascade="all, delete-orphan")
 
@@ -98,9 +99,9 @@ class Task(Base, TimestampMixin):
 
     comments: Mapped[list["Comment"]] = relationship(back_populates="task", cascade="all, delete-orphan")
 
-    assignee: Mapped[Optional["User"]] = relationship(back_populates="tasks_assignee")
+    assignee: Mapped[Optional["User"]] = relationship(foreign_keys=[assignee_id], back_populates="tasks_assignee")
     column: Mapped["Column"] = relationship(back_populates="tasks")
-    user: Mapped["User"] = relationship(back_populates="created_tasks")
+    user: Mapped["User"] = relationship(foreign_keys=[created_by], back_populates="created_tasks")
 
     assignments: Mapped[list["TaskAssignment"]] = relationship(back_populates="task", cascade="all, delete-orphan")
     

@@ -18,3 +18,8 @@ class ProjectVisibilityEnum(str, PyEnum):
     PRIVATE = "private"
     TEAM = "team"
     PUBLIC = "public"
+
+
+class UserRoleEnum(str, PyEnum):
+    ADMIN = "admin"
+    USER = "user"

@@ -3,7 +3,7 @@ from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, Field
 
-from app.enums import ProjectVisibilityEnum, TaskPriorityEnum, TaskStatusEnum
+from app.enums import ProjectVisibilityEnum, TaskPriorityEnum, TaskStatusEnum, UserRoleEnum
 
 #User
 class UserBase(BaseModel):
@@ -12,7 +12,7 @@ class UserBase(BaseModel):
     email: EmailStr = Field(..., description="Unique user email address")
     phone_number: str | None = Field(None, min_length=10, max_length=15, description="Unique user phone number, can be null")
     avatar_url: str | None = Field(None, min_length=1, max_length=255, description="User avatar url")
-
+    role: UserRoleEnum = Field(UserRoleEnum.USER, description="User role, arguments: user, admin")
 
 class UserCreate(UserBase):
     password: str = Field(..., min_length=8, max_length=50, description="User password form 8 to 50 characters")
@@ -33,9 +33,7 @@ class UserUpdate(BaseModel):
     full_name: str | None = Field(None, min_length=1, max_length=50, description="Any user name within 50 characters")
     email: EmailStr | None = Field(None, description="Unique user email address")
     phone_number: str | None = Field(None, min_length=10, max_length=15, description="Unique phone number")
-    avatar_url: str | None = Field(None, min_length=1, max_length=255, description="User avatar url")
     is_active: bool | None = Field(None, description="Is the user active")
-    is_verified: bool | None = Field(None, description="Is the user verified")
 
 
 #Project
@@ -151,7 +149,7 @@ class TaskUpdate(BaseModel):
     status: TaskStatusEnum | None = Field(None, description="The current status of the task, arguments: to_do, in_progress, testing, done")
     order: int | None = Field(None, description="Order number to display in column by order")
     due_date: datetime | None = Field(None, description="The date when the task is expected to be completed.")
-    completed_at: datetime | None = Field(None, "The date when the task was completed")
+    completed_at: datetime | None = Field(None, description="The date when the task was completed")
 
 
 #TaskAssignemts
@@ -175,7 +173,7 @@ class CommentBase(BaseModel):
     task_id: UUID = Field(..., description="The task to which comment belongs")
     user_id: UUID = Field(..., description="The user who was wrote the comment")
     content: str = Field(..., min_length=1, max_length=2000, description="The comment content")
-    parent_id: UUID | None = Field(None, "The parent(comment) to which this comment belongs, but only if explicity stated")
+    parent_id: UUID | None = Field(None, description="The parent(comment) to which this comment belongs, but only if explicity stated")
 
 
 class CommentCreate(CommentBase):
@@ -192,3 +190,12 @@ class CommentRead(CommentBase):
 
 class CommentUpdate(BaseModel):
     content: str | None = Field(None, min_length=1, max_length=2000, description="The comment content")
+
+
+class TokenPayload(BaseModel):
+    sub: str
+    exp: float
+
+
+class Message(BaseModel):
+    data: str

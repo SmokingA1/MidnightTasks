@@ -38,7 +38,7 @@ async_session = async_sessionmaker(
     bind=async_engine,
     class_=AsyncSession,
     autoflush=False,
-    autocommit=True
+    autocommit=False
 )
 
 

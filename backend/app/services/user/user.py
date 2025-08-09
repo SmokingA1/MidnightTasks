@@ -84,6 +84,8 @@ async def update_user_by_id(
     for k, v in update_data.items():
         if v is not None:
             setattr(db_user, k, v)
+        if v is None and k in ("full_name", "phone_number"):
+            setattr(db_user, k, v)
 
     await db.commit()
     await db.refresh(db_user)
