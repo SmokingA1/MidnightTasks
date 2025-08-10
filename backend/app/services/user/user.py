@@ -6,7 +6,7 @@ from sqlalchemy import select
 
 from app.schemas import UserCreate, UserUpdate
 from app.models import User
-from app.core.security import hash_password
+from app.core.security import hash_password, verify_password
 
 async def get_user_by_id(*, db: AsyncSession, user_id: UUID) -> User | None: 
     db_user = await db.get(User, user_id)
@@ -49,6 +49,17 @@ async def get_user_by_phone_number(
     return db_user.scalars().first()
 
 
+async def get_user_by_username(
+    *,
+    db: AsyncSession,
+    username: str,
+) -> User | None:
+    query = select(User).where(User.username == username)
+    db_user = await db.execute(query)
+
+    return db_user.scalars().first()
+
+
 async def create_user(
     *,
     db: AsyncSession,
@@ -84,7 +95,7 @@ async def update_user_by_id(
     for k, v in update_data.items():
         if v is not None:
             setattr(db_user, k, v)
-        if v is None and k in ("full_name", "phone_number"):
+        elif k in ("full_name", "phone_number"):
             setattr(db_user, k, v)
 
     await db.commit()
@@ -106,4 +117,18 @@ async def delete_user_by_id(
     await db.delete(db_user)
     await db.commit()
 
+    return db_user
+
+
+async def authenticate(
+    *, 
+    db: AsyncSession, 
+    user_email: str,
+    user_password: str
+) -> User | None:
+    db_user = await get_user_by_email(db=db, user_email=user_email)
+
+    if not db_user or not verify_password(plain_password=user_password, hashed_password=db_user.hashed_password):
+        return None
+    
     return db_user

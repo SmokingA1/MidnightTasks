@@ -8,6 +8,7 @@ from app.services.user.user import (
     get_user_by_email,
     get_user_by_id,
     get_user_by_phone_number,
+    get_user_by_username,
     get_users,
     create_user,
     update_user_by_id,
@@ -102,15 +103,19 @@ async def create_new_user(
     """
     Creating new user.
     """
-
-    existing_phone = await get_user_by_phone_number(db=db, user_phone_number=user_create.phone_number)
     existing_email = await get_user_by_email(db=db, user_email=user_create.email)
-
     if existing_email:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such email already exists!")
-    if existing_phone and existing_phone.phone_number != None:
-        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such phone number already exists!")
     
+    if user_create.phone_number is not None:
+        existing_phone = await get_user_by_phone_number(db=db, user_phone_number=user_create.phone_number)
+        if existing_phone:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such phone number already exists!")
+
+    existing_username = await get_user_by_username(db=db, username=user_create.username)
+    if existing_username:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such username already exists!")
+
     created_user = await create_user(db=db, user_create=user_create)
 
     return created_user
@@ -134,6 +139,11 @@ async def update_existing_user(
     if not db_user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND)
     
+    if user_update.username:
+        existing_username_user = await get_user_by_username(db=db, username=user_update.username)
+        if existing_username_user and existing_username_user.id != db_user.id:
+            raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such username already exists")
+
     if user_update.email:
         existing_email_user = await get_user_by_email(db=db, user_email=user_update.email)
         if existing_email_user and existing_email_user.id != user_id:
@@ -149,7 +159,6 @@ async def update_existing_user(
                 status_code=status.HTTP_409_CONFLICT,
                 detail="Such phone number already exists!"
             )
-        
     updated_user = await update_user_by_id(db=db, user_update=user_update, user_id=user_id)
     return updated_user
 
