@@ -91,7 +91,6 @@ async def update_existing_project(
 async def delete_existing_project(
     db: SessionDep,
     project_id: UUID,
-    project_update: ProjectUpdate,
 ):
     """
     Deleting project by ID.
