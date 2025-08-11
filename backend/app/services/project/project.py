@@ -59,8 +59,10 @@ async def update_project_by_id(
 
     for k, v in update_data.items():
         if v is not None:
-            setattr(db_project, k, v)
-    
+            setattr(db_project, k, v) # if v is not None, any value except None, we set by k value, but if None go down
+        elif k in ("description"):
+            setattr(db_project, k, v) # if v is None but k is "description" what is okay for model, we can description set as null its okay
+     
     await db.commit()
     await db.refresh(db_project)
 

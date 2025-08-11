@@ -28,6 +28,7 @@ async def read_users(
     """
     Receiver user with pagination.
     """
+    
     db_users = await get_users(db=db, page=page, limit=limit)
 
     return db_users
@@ -40,6 +41,7 @@ async def read_current_user(
     """
     Receive user by jwt from cookie.
     """
+
     return current_user
 
 
@@ -52,6 +54,7 @@ async def read_user_by_id(
     """
     Receive user by id.
     """
+
     if current_user.id != user_id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Rights denied!")
 
@@ -71,6 +74,7 @@ async def read_user_by_email(
     """
     Receive user by email.
     """
+
     db_user = await get_user_by_email(db=db, user_email=user_email)
 
     if not db_user:
@@ -87,6 +91,7 @@ async def read_user_by_phone_number(
     """
     Receiver user by phone number.
     """
+
     db_user = await get_user_by_phone_number(db=db, user_phone_number=user_phone_number)
 
     if not db_user:
@@ -103,6 +108,7 @@ async def create_new_user(
     """
     Creating new user.
     """
+
     existing_email = await get_user_by_email(db=db, user_email=user_create.email)
     if existing_email:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Such email already exists!")
@@ -169,6 +175,10 @@ async def delete_existing_user(
     current_user: CurrentUser,
     user_id: UUID = Path(..., description="User ID is required!"),
 ):
+    """
+    Deleting user by id
+    """
+
     if current_user.id != user_id and current_user.role != "admin":
         raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Rights denied!")
 
