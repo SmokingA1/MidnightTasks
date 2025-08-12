@@ -59,6 +59,8 @@ async def update_column(
     for k, v in update_data.items():
         if v is not None:
             setattr(db_column, k, v)
+        elif k in ("wip_limit"):
+            setattr(db_column, k, v)
 
     await db.commit()
     await db.refresh(db_column)
