@@ -6,7 +6,7 @@ from app.api.routers.project import projects
 from app.api.routers.board import boards
 from app.api.routers.column import columns
 from app.api.routers.task import tasks
-
+from app.api.routers.task import assignments as task_assignments
 router = APIRouter()
 
 router.include_router(users.router)
@@ -15,3 +15,4 @@ router.include_router(projects.router)
 router.include_router(boards.router)
 router.include_router(columns.router)
 router.include_router(tasks.router)
+router.include_router(task_assignments.router)
