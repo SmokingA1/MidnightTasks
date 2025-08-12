@@ -141,15 +141,11 @@ class TaskRead(TaskBase):
 
 
 class TaskUpdate(BaseModel):
-    column_id: UUID | None = Field(None, description="The column to which the task belongs")
-    assignee_id: UUID | None = Field(None, description="The one who is an assigned to the task")
     title: str | None = Field(None, min_length=1, max_length=50, description="Task title 1-50 characters")
     description: str | None = Field(None, min_length=1, max_length=500, description="Task description 1-500 characters")
     priority: TaskPriorityEnum | None = Field(None, description="Task priority arguments: low, medium, high, urgent")
     status: TaskStatusEnum | None = Field(None, description="The current status of the task, arguments: to_do, in_progress, testing, done")
     order: int | None = Field(None, description="Order number to display in column by order")
-    due_date: datetime | None = Field(None, description="The date when the task is expected to be completed.")
-    completed_at: datetime | None = Field(None, description="The date when the task was completed")
 
 
 #TaskAssignemts

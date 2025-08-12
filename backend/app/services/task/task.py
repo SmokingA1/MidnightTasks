@@ -60,6 +60,8 @@ async def update_task_by_id(
     for k, v in update_data.items():
         if v is not None:
             setattr(db_task, k, v)
+        elif k in ("description"):
+            setattr(db_task, k, v)
 
     await db.commit()
     await db.refresh(db_task)
