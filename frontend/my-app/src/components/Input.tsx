@@ -8,6 +8,8 @@ interface InputIntreface extends InputHTMLAttributes<HTMLInputElement> {
     label?: string;
     width: string;
     id: string;
+    value: any;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const types = {
@@ -15,8 +17,12 @@ const types = {
     "hidden": "bg-slate-100 outline-none px-5 py-2.5 rounded-md ",
 }
 
-const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, ...props}) => {
+const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, type, value, onChange, ...props}) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
+
+    const inputType =
+        typeStyle === "hidden" ? (isVisible ? "text" : "password") : type || "text";
+
 
     return (
         <div className="flex flex-col w-100 gap-2.5 my-3">
@@ -24,9 +30,12 @@ const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, ...props}
             <div className="flex relative">
                 <input
                     id={id}
+                    name={props.name || id} // добавляем name
                     className={`${types[typeStyle]} ${width}`}
                     {...props}
-                    type={`${typeStyle == "hidden" && isVisible == false ? 'password' : 'text'}`}
+                    type={inputType}
+                    value={value}
+                    onChange={onChange}
 
                 />
                 {typeStyle == "hidden" && ( isVisible == false ? (

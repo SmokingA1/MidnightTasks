@@ -3,16 +3,21 @@
 import LoginForm from "@/components/LoginForm";
 import RegistrationForm from "@/components/RegistrationForm";
 import { useEffect, useRef, useState } from "react";
-
+import Image from "next/image";
+import backphoto from "../../../public/10589.jpg"
 
 const LoginPage = () => {
     const [selectedForm, setSelectedForm] = useState<"login" | "registration">("login")
     const firstRender = useRef(true);
 
+    useEffect(() => {
+        console.log("heelo")
+    }, [])
+
 
     const handleSwitchForm = (form: "login" | "registration") => {
         setSelectedForm(form)
-        firstRender.current = false // после первого клика
+        firstRender.current = false
     }
 
     return (
@@ -27,7 +32,7 @@ const LoginPage = () => {
                 <RegistrationForm switchForm={() => handleSwitchForm("login")} />
             </div>
             <div className={`
-                absolute flex w-[600px] h-full bg-teal-900 z-5  
+                absolute flex w-[600px] h-full bg-teal-900 z-5  border-1
                 ${
                     firstRender.current
                     ? "right-0"
@@ -36,7 +41,7 @@ const LoginPage = () => {
                         : "animate-to-left"
                 }`
             }>
-                {/* cover */}
+                <Image src={backphoto}  alt="cover-background"/>
             </div>
 
         </div>

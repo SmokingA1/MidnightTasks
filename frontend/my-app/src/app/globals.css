@@ -26,11 +26,11 @@
   }
 
   .animate-to-left {
-    animation: slide-to-left 0.6s linear forwards;
+    animation: slide-to-left 0.3s linear forwards;
   }
 
   .animate-to-right{
-    animation: slide-to-right 0.6s linear forwards;
+    animation: slide-to-right 0.3s linear forwards;
   }
 }
 

@@ -1,8 +1,8 @@
 "use client"
 
-import React from "react";
+import React, { ButtonHTMLAttributes } from "react";
 
-interface ButtonProps {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     typeStyle: "primary" | "secondary" | "tertiary";
     onClick: () => void;
     text: string;
