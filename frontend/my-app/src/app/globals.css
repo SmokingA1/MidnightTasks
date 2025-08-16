@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Slab:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+
 @import "tailwindcss";
 
 @media (prefers-color-scheme: dark) {
@@ -19,10 +21,16 @@
 @layer utilities {
 
   .font-rb-md {
-      font-family: "Roboto Slab", serif;
-      font-optical-sizing: auto;
-      font-weight: 400;
-      font-style: normal;
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  .font-glitch-md {
+    font-family: "Rubik Glitch", system-ui;
+    font-weight: 400;
+    font-style: normal;
   }
 
   .animate-to-left {
@@ -32,6 +40,26 @@
   .animate-to-right{
     animation: slide-to-right 0.3s linear forwards;
   }
+
+  .animate-drop-word-1 {
+    animation: drop-word 1.5s linear forwards;
+  }
+  .animate-drop-word-2  {
+    animation: drop-word 1.7s linear forwards;
+  }
+  .animate-drop-word-3 {
+    animation: drop-word 1.8s linear forwards;
+  }
+  .animate-drop-word-4 {
+    animation: drop-word 1.6s linear forwards;
+  }
+  .animate-drop-word-5 {
+    animation: drop-word 1.9s linear forwards;
+  }
+  .animate-drop-word-6 {
+    animation: drop-word 2s linear forwards;
+  }
+
 }
 
 @keyframes slide-to-left {
@@ -49,6 +77,34 @@
   }
   100% {
     right: 0%;
+  }
+}
+
+@keyframes drop-word {
+  0% {
+    top: 0;
+    transform: translateY(-100%);
+  }
+  30% {
+    top: 200px;
+  }
+  40% {
+    top: 150px;
+  }
+  60% {
+    top: 200px;
+  }
+  65% {
+    top: 170px;
+  }
+  85% {
+    top: 200px;
+  }
+  90% {
+    top: 190px;
+  }
+  100%{
+    top:200px;
   }
 }
 
