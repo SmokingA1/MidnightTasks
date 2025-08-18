@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Edu+VIC+WA+NT+Hand+Pre:wght@400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Slab:wght@100..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Glitch:wght@300;400;500;600;700&display=swap');
 
 @import "tailwindcss";
 
@@ -16,14 +16,26 @@
     box-sizing: border-box;
   }
 
+
+  .nav-block h2 {
+    @apply text-[12px] font-semibold;
+  }
+
 }
 
 @layer utilities {
 
-  .font-rb-md {
+  .font-rb-normal {
     font-family: "Roboto Slab", serif;
     font-optical-sizing: auto;
     font-weight: 400;
+    font-style: normal;
+  }
+
+  .font-rb-md {
+    font-family: "Roboto Slab", serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
     font-style: normal;
   }
 

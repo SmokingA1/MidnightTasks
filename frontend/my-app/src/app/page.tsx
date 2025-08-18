@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 const Home = () => {
     return (
-        <div id="home" className="font-rb-md">
+        <div id="home" className="font-rb-normal">
             <header className=" w-full flex justify-between p-2.5">
                 <span className='text-2xl text-teal-900'>Midnight Tasks</span>
                 <div className="flex gap-2.5 font-medium">

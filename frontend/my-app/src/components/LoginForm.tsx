@@ -8,6 +8,8 @@ import googleLogo from "../../public/google.svg"
 import Image from "next/image"
 import Link from "next/link"
 import { api } from "@/api"
+import { useRouter } from "next/navigation"
+import useUserStore from "@/store/user"
 
 interface LoginFormProps {
     switchForm: () => void;
@@ -24,6 +26,8 @@ const LoginForm: React.FC<LoginFormProps> = ({switchForm}) => {
         password: "",
     })
     const [error, setError] = useState<"pass-l" | "incorrect" | "many-attempts" | null>(null);
+    const router = useRouter();
+    const user = useUserStore();
 
     useEffect(() => {
         console.log(userProps)
@@ -42,6 +46,22 @@ const LoginForm: React.FC<LoginFormProps> = ({switchForm}) => {
         }
     }, [userProps])
 
+    const fetchUser = async () => {
+        try {
+            const response = await api.get("/users/me");
+            const {id, username, full_name, email, phone_number, avatar_url} = response.data
+            console.log(response.data);
+            user.setUser({id, username, full_name, email, phone_number, avatar_url})
+
+        } catch (error: any) {
+            if (error.response) {
+                console.log("Server error: ", error.response);
+            } else {
+                console.log("Network or other error: ", error);
+            }
+        }
+    }
+
     const handleLogin = async (e: React.FormEvent) => {
         e.preventDefault();
 
@@ -57,6 +77,9 @@ const LoginForm: React.FC<LoginFormProps> = ({switchForm}) => {
                 headers: {"COntent-Type": "application/x-www-form-urlencoded"}
             })
             console.log(response.data);
+            fetchUser();
+            console.log(user.username)
+            router.push("/dashboard");
         } catch (error: any) {
             if (error.response) {
                 console.error("Server error: ", error.response);

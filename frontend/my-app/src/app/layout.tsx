@@ -1,24 +1,30 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
-
+import useUserStore from "@/store/user";
+import AuthChecker from "@/components/AuthChecker";
 
 export const metadata: Metadata = {
-  title: "Midnight-Tasks",
-  description: "SmokingA1 is developer.",
+    title: "Midnight-Tasks",
+    description: "SmokingA1 is developer.",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body
-        className={`font-rb-md antialiased bg-white`}
-      >
-        {children}
-      </body>
-    </html>
-  );
+
+
+    return (
+        <html lang="en">
+            <body
+                className={`font-rb-normal antialiased bg-white`}
+            >
+                <AuthChecker>
+                    {children}
+                </AuthChecker>
+            </body>
+        </html>
+    );
 }
