@@ -18,7 +18,7 @@
 
 
   .nav-block h2 {
-    @apply text-[12px] font-semibold;
+    @apply text-[12px] text-gray-400;
   }
 
 }

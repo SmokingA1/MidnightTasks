@@ -128,11 +128,11 @@ const RegistrationForm: React.FC<RegistrationFormProps> = ({switchForm}) => {
             {error == "pass-l" && <span className="text-red-500 self-start">Password cannot be less than 8 characters!</span>}
 
             <div className="py-5"></div>
-            <Button typeStyle="primary" onClick={() => console.log("hello")} text="LOG IN" width="w-full" type="submit"/>
+            <Button typeStyle="primary" onClick={() => console.log("hello")} text="SIGN UP" width="w-full" type="submit"/>
 
 
             <p className="mt-5 flex gap-1">Already have an account?
-                <span onClick={switchForm} className="text-blue-900 hover:text-blue-700 duration-100 cursor-pointer">Sign up</span>
+                <span onClick={switchForm} className="text-blue-900 hover:text-blue-700 duration-100 cursor-pointer">Log in</span>
             </p>
             
         </form>
