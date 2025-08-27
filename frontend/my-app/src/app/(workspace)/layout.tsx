@@ -15,7 +15,9 @@ export default function WorkSpaceRoot({
         <main id="dashboard-layout" className="h-full flex">
             <SideBar />
             <div className="flex justify-center w-full bg-gray-100">
-                {children}
+                <div id="dashboard-container" className="flex flex-col gap-5 pt-5 px-2.5 w-full  xl:w-11/12 bg-white">
+                    {children}
+                </div>
             </div>
         </main>
     );

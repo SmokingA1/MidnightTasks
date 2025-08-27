@@ -13,7 +13,7 @@ const SideBar = () => {
     
     const user = useUserStore();
     const mainMenu = [
-    { label: "Dashboard", path: "/dashboard", icon: <LayoutDashboard  /> },
+    { label: "Dashboard", path: "dashboard", icon: <LayoutDashboard  /> },
     { label: "My To-Do", path: "/todo", icon: <AppWindow /> },
     { label: "Request From", path: "/requests", icon: <Bookmark /> },
     { label: "Reports", path: "/reports", icon: <ClipboardList /> },
@@ -47,16 +47,16 @@ const SideBar = () => {
                     </div>
                     
                 </div>
-                <div className="flex justify-center items-center mb-2.5 mx-2.5 border-1 h-10 rounded-sm border-gray-300">
+                <div className="flex justify-center items-center mb-2.5 mx-2.5 border-1 h-10 p-0.5 rounded-sm border-gray-300">
                     <Input 
-                        typeStyle="secondary"    
+                        typeStyle="tertiary"    
                         type="text"
                         value={searchValue}
                         onChange={(e) => setSearchValue(e.target.value)}
-                        width="w-3/4"
+                        width="w-full"
                         id="main-search-field"
                     />
-                    <ListPlus className="mr-2.5" size={30}/>
+                    <ListPlus className="mx-2.5" size={30}/>
 
                 </div>
                 <nav className="flex flex-col nav-block px-2 pt-2.5 overflow-y-auto max-h-full">
@@ -78,7 +78,7 @@ const SideBar = () => {
                                         <span>
                                             {item.label}
                                         </span>
-                                        { pathName === item.path && <span className="absolute h-full left-0 top-0 w-2 bg-linear-to-r from-teal-900 to-teal-600 rounded-r-xl">{/* pointer */}</span>}
+                                        { pathName.split("/")[1] === item.path && <span className="absolute h-full left-0 top-0 w-2 bg-linear-to-r from-teal-900 to-teal-600 rounded-r-xl">{/* pointer */}</span>}
                                     </li>
                                 ))}
 

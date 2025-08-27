@@ -4,21 +4,23 @@ import React, { InputHTMLAttributes, useState } from "react";
 import {Eye, EyeOff} from "lucide-react";
 
 interface InputIntreface extends InputHTMLAttributes<HTMLInputElement> {
-    typeStyle: "primary" | "hidden" | "secondary";
+    typeStyle: "primary" | "hidden" | "secondary" | "tertiary";
     label?: string;
-    width: string;
+    width?: string;
     id: string;
     value: any;
+    direction?: "row" | "col";
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const types = {
     "primary": "bg-slate-100 outline-none px-5 py-2.5 rounded-md ",
-    "secondary": "outline-none px-5 py-1 rounded-md",
+    "secondary": "outline-none px-5 py-2.5 rounded-md border-1 border-gray-300 ",
+    "tertiary": "outline-none px-5 py-1.5 ",
     "hidden": "bg-slate-100 outline-none px-5 py-2.5 rounded-md ",
 }
 
-const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, type, value, onChange, ...props}) => {
+const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, type, value, onChange, direction = "col", ...props}) => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
 
     const inputType =
@@ -26,7 +28,7 @@ const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, type, val
 
 
     return (
-        <div className="flex flex-col w-100 gap-2.5 my-3">
+        <div className={`flex flex-${direction}  w-100 gap-2.5 my-3`}>
             {label && <label htmlFor={id}>{label}</label>}
             <div className="flex relative">
                 <input
@@ -37,7 +39,6 @@ const Input: React.FC<InputIntreface> = ({typeStyle, label, width, id, type, val
                     type={inputType}
                     value={value}
                     onChange={onChange}
-                    placeholder="Search"
 
                 />
                 {typeStyle == "hidden" && ( isVisible == false ? (

@@ -5,7 +5,7 @@ import React, { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     typeStyle: "primary" | "secondary" | "tertiary" | "primary-plus" | "secondary-import";
-    onClick: () => void;
+    onClick?: () => void;
     text: string;
     width?: string;
     height?: string;

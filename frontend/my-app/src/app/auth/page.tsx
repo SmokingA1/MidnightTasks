@@ -37,8 +37,8 @@ const LoginPage = () => {
                     firstRender.current
                     ? "right-0"
                     : selectedForm === "login"
-                        ? "animate-to-right"
-                        : "animate-to-left"
+                        ? "right-0"
+                        : "left-0"
                 }`
             }>
                 <Image src={backphoto}  alt="cover-background"/>
