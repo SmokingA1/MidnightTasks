@@ -25,6 +25,7 @@ class User(Base, TimestampMixin):
 
     projects: Mapped[list["Project"]] = relationship(back_populates="user", cascade="all, delete-orphan")
     created_tasks: Mapped[list["Task"]] = relationship(back_populates="user", foreign_keys="Task.created_by", cascade="all, delete-orphan")
+    project_participants: Mapped[list["ProjectParticipant"]] = relationship(back_populates="user", cascade="delete-orphan")
     tasks_assignee: Mapped[list["Task"]] = relationship(back_populates="assignee", foreign_keys="Task.assignee_id", passive_deletes=True)
     
     tasks: Mapped[list["TaskAssignment"]] = relationship(back_populates="user", cascade="all, delete-orphan")
@@ -43,10 +44,29 @@ class Project(Base, TimestampMixin):
     visibility: Mapped[ProjectVisibilityEnum] = mapped_column(Enum(ProjectVisibilityEnum, name="projectvisibility"), default=ProjectVisibilityEnum.PUBLIC, nullable=False)
 
     boards: Mapped[list["Board"]] = relationship(back_populates="project", cascade="all, delete-orphan")
+    participants: Mapped[list["ProjectParticipant"]] = relationship(back_populates="project", cascade="all, delete-orphan")
     user: Mapped["User"] = relationship(back_populates="projects")
 
     def __repr__(self):
         return f"<Project(id={self.id}, name='{self.name}')>"
+
+
+class ProjectParticipant(Base, TimestampMixin):
+    __tablename__ = "project_participants"
+
+    user_id: Mapped[UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE", name="fk_project_participants_users_id"), nullable=False, index=True)
+    project_id: Mapped[UUID] = mapped_column(ForeignKey("projects.id", ondelete="CASCADE", name="fk_project_participants_projects_id"), nullable=False, index=True)
+    joined_at: Mapped[datetime] = mapped_column(TZDateTime(), default=datetime.now(timezone.utc))
+
+    user: Mapped["User"] = relationship(back_populates="project_participants")
+    project: Mapped["Project"] = relationship(back_populates="participants")
+
+    __table_args__ = (
+        PrimaryKeyConstraint("user_id", "project_id"),
+    )
+    
+    def __repr__(self):
+        return f"<ProjectParticipant(user_id={self.user_id}, project_id={self.project_id})>"
 
 
 class Board(Base, TimestampMixin):
